@@ -1,7 +1,13 @@
+import ChecklistItem from "./ChecklistItem"
 
 const MainContent = () => {
   return (
-    <div>MainContent</div>
+    <>
+        <ChecklistItem todo="Eat"/>
+        <ChecklistItem todo='Exercise'/>
+        <ChecklistItem todo='Study'/>
+        <ChecklistItem todo = 'Sleep'  />
+    </>
   )
 }
 
