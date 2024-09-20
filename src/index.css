@@ -63,6 +63,11 @@ button:focus-visible {
     color: #747bff;
   }
   button {
-    background-color: #f9f9f9;
+    background: #49a0e6;
+    color: black;
   }
+}
+input{
+  background:azure;
+  color: black;
 }
