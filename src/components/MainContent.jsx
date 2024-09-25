@@ -10,6 +10,9 @@ const MainContent = () => {
   const [checked, setChecked] = useState(toDoList)
   const [inputValue, setInputValue] = useState('')
   const [updatedValue, setUpdateValue] = useState('')
+  const [isEditClicked, setIsEditClicked] = useState(false)
+  const [editInputValue, setEditInputValue] = useState('')
+  const [editItemId, setEditItemId] = useState(null)
 
   const handleUserClick = (e) => {
     const tempArray = [...checked].map((item) =>
@@ -36,7 +39,7 @@ const MainContent = () => {
 
   const handleEdit = (id) => {
     const editItem = checked.find((item) => item.id === id)
-    editItem.text = updatedValue
+    editItem.text = editInputValue
     const tempArray = [...checked].map((item) =>
       item.id == id ? editItem : item
     )
@@ -64,6 +67,12 @@ const MainContent = () => {
         id={id}
         name={name}
         handleUserClick={handleUserClick}
+        isEditClicked={isEditClicked}
+        setIsEditClicked={setIsEditClicked}
+        editInputValue={editInputValue}
+        setEditInputValue={setEditInputValue}
+        editItemId={editItemId}
+        setEditItemId={setEditItemId}
       />
     )
   )
