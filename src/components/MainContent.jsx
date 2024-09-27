@@ -20,7 +20,7 @@ const MainContent = () => {
       toDoList(data.todos)
     }
     fetchData()
-  }, [completed])
+  }, [])
 
   const handleUserClick = (e) => {
     const tempArray = [...checked].map((item) =>
