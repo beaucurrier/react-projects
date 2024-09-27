@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import ChecklistItem from './ChecklistItem'
 import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
@@ -13,6 +13,14 @@ const MainContent = () => {
   const [isEditClicked, setIsEditClicked] = useState(false)
   const [editInputValue, setEditInputValue] = useState('')
   const [editItemId, setEditItemId] = useState(null)
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch('https://todolistbackend-fb6e.onrender.com')
+      const data = await response.json()
+      toDoList(data.todos)
+    }
+    fetchData()
+  }, [completed])
 
   const handleUserClick = (e) => {
     const tempArray = [...checked].map((item) =>
@@ -21,13 +29,24 @@ const MainContent = () => {
     setChecked(tempArray)
     console.log(checked)
   }
-  const handleAddItem = () => {
+  const handleAddItem = async () => {
     const newItem = {
       id: checked.length + 1,
       text: inputValue,
       htmlFor: inputValue,
       type: 'checkbox',
       name: inputValue,
+    }
+    const response = await fetch(
+      'https://todolistbackend-fb6e.onrender.com/add-todo',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newItem),
+      }
+    )
+    if (!response.ok) {
+      console.error('Item Failed to Add')
     }
     setChecked([...checked, newItem])
     setInputValue('')
@@ -37,19 +56,27 @@ const MainContent = () => {
     setInputValue(e.target.value)
   }
 
-  const handleEdit = (id) => {
+  const handleEdit = async (id) => {
     const editItem = checked.find((item) => item.id === id)
     editItem.text = editInputValue
     const tempArray = [...checked].map((item) =>
       item.id == id ? editItem : item
     )
+    const response = await fetch(
+      `https://todolistbackend-fb6e.onrender.com/edit-todo/${id}`,
+      { method: 'POST' }
+    )
     setChecked(tempArray)
   }
 
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
     const updatedItems = checked.filter((item) => {
       if (item.id !== id) return item
     })
+    const response = await fetch(
+      `https://todolistbackend-fb6e.onrender.com/delete-todo/${id}`,
+      { method: 'DELETE' }
+    )
     console.log(updatedItems)
     setChecked(updatedItems)
   }
