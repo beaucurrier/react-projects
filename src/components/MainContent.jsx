@@ -20,7 +20,7 @@ const MainContent = () => {
     const fetchData = async () => {
       const response = await fetch(`${apiUrl}/todos`)
       const data = await response.json()
-      toDoList(data.todos)
+      setChecked(data.todos)
     }
     fetchData()
   }, [])
