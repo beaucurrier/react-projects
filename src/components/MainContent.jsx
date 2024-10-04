@@ -22,8 +22,8 @@ const MainContent = () => {
       const data = await response.json()
       toDoList(data.todos)
     }
-    fetchData()
   }, [])
+  fetchData()
 
   const handleUserClick = async (e) => {
     let editItem = [...checked].find((item) => item._id === e.target.id)
