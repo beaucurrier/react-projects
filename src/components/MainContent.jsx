@@ -26,7 +26,7 @@ const MainContent = () => {
   }, [])
 
   const handleUserClick = async (e) => {
-    const editItem = [...checked].find((item) => item._id === e.target.id)
+    let editItem = [...checked].find((item) => item._id === e.target.id)
     editItem = !editItem.completed
     const response = await fetch(`${apiUrl}/edit-todo/${id}`, {
       method: 'POST',
