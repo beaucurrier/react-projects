@@ -13,9 +13,12 @@ const MainContent = () => {
   const [isEditClicked, setIsEditClicked] = useState(false)
   const [editInputValue, setEditInputValue] = useState('')
   const [editItemId, setEditItemId] = useState(null)
+  const apiUrl =
+    import.meta.env.VITE_API_URL || 'https://todolistbackend-fb6e.onrender.com'
+
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch('https://todolistbackend-fb6e.onrender.com')
+      const response = await fetch(`${apiUrl}/todos`)
       const data = await response.json()
       toDoList(data.todos)
     }
@@ -24,27 +27,20 @@ const MainContent = () => {
 
   const handleUserClick = (e) => {
     const tempArray = [...checked].map((item) =>
-      item.id === e.target.id ? { ...item, completed: !item.completed } : item
+      item._id === e.target.id ? { ...item, completed: !item.completed } : item
     )
     setChecked(tempArray)
     console.log(checked)
   }
   const handleAddItem = async () => {
     const newItem = {
-      id: checked.length + 1,
       text: inputValue,
-      htmlFor: inputValue,
-      type: 'checkbox',
-      name: inputValue,
     }
-    const response = await fetch(
-      'https://todolistbackend-fb6e.onrender.com/add-todo',
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newItem),
-      }
-    )
+    const response = await fetch(`${apiUrl}/add-todo`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newItem),
+    })
     if (!response.ok) {
       console.error('Item Failed to Add')
     }
@@ -57,52 +53,52 @@ const MainContent = () => {
   }
 
   const handleEdit = async (id) => {
-    const editItem = checked.find((item) => item.id === id)
+    const editItem = [...checked].find((item) => item._id === id)
     editItem.text = editInputValue
+    const response = await fetch(`${apiUrl}/edit-todo/${id}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        text: editInputValue,
+        completed: editItem.completed,
+      }),
+    })
+    const updatedTodo = await response.json()
     const tempArray = [...checked].map((item) =>
-      item.id == id ? editItem : item
-    )
-    const response = await fetch(
-      `https://todolistbackend-fb6e.onrender.com/edit-todo/${id}`,
-      { method: 'POST' }
+      item._id == id ? updatedTodo : item
     )
     setChecked(tempArray)
+    setIsEditClicked(false)
   }
 
   const handleDelete = async (id) => {
     const updatedItems = checked.filter((item) => {
-      if (item.id !== id) return item
+      if (item._id !== id) return item
     })
-    const response = await fetch(
-      `https://todolistbackend-fb6e.onrender.com/delete-todo/${id}`,
-      { method: 'DELETE' }
-    )
+    const response = await fetch(`${apiUrl}/delete-todo/${id}`, {
+      method: 'DELETE',
+    })
     console.log(updatedItems)
     setChecked(updatedItems)
   }
 
-  const mappingToDoList = checked.map(
-    ({ text, completed, htmlFor, type, id, name }) => (
-      <ChecklistItem
-        handleEdit={handleEdit}
-        handleDelete={handleDelete}
-        text={text}
-        htmlFor={htmlFor}
-        type={type}
-        key={id}
-        completed={completed}
-        id={id}
-        name={name}
-        handleUserClick={handleUserClick}
-        isEditClicked={isEditClicked}
-        setIsEditClicked={setIsEditClicked}
-        editInputValue={editInputValue}
-        setEditInputValue={setEditInputValue}
-        editItemId={editItemId}
-        setEditItemId={setEditItemId}
-      />
-    )
-  )
+  const mappingToDoList = checked.map(({ text, completed, _id }) => (
+    <ChecklistItem
+      handleEdit={handleEdit}
+      handleDelete={handleDelete}
+      text={text}
+      key={_id}
+      completed={completed}
+      id={_id}
+      handleUserClick={handleUserClick}
+      isEditClicked={isEditClicked}
+      setIsEditClicked={setIsEditClicked}
+      editInputValue={editInputValue}
+      setEditInputValue={setEditInputValue}
+      editItemId={editItemId}
+      setEditItemId={setEditItemId}
+    />
+  ))
   return (
     <>
       <TextField

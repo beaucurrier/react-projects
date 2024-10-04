@@ -8,10 +8,7 @@ import Button from '@mui/material/Button'
 
 const ChecklistItem = ({
   handleDelete,
-  htmlFor,
-  type,
-  id,
-  name,
+  _id,
   text,
   completed,
   handleUserClick,
@@ -30,16 +27,19 @@ const ChecklistItem = ({
           <Checkbox
             onChange={(e) => handleUserClick(e)}
             checked={completed}
-            type={type}
-            id={`${id}`}
-            name={name}
+            type={'checkbox'}
+            id={`${_id}`}
           />
         }
         label={text}
         htmlFor={htmlFor}
       />
 
-      <Button variant='outlined' onClick={() => handleDelete(id)} id={`${id}`}>
+      <Button
+        variant='outlined'
+        onClick={() => handleDelete(_id)}
+        id={`${_id}`}
+      >
         Delete
       </Button>
       {!isEditClicked && (
@@ -48,14 +48,14 @@ const ChecklistItem = ({
           onClick={() => {
             setIsEditClicked(!isEditClicked)
             setEditInputValue(text)
-            setEditItemId(id)
+            setEditItemId(_id)
           }}
-          id={`${id}`}
+          id={`${_id}`}
         >
           Edit
         </Button>
       )}
-      {isEditClicked && editItemId === id && (
+      {isEditClicked && editItemId === _id && (
         <>
           {' '}
           <TextField
@@ -68,10 +68,10 @@ const ChecklistItem = ({
           <Button
             variant='outlined'
             onClick={() => {
-              handleEdit(id)
+              handleEdit(_id)
               setIsEditClicked(!isEditClicked)
             }}
-            id={`${id}`}
+            id={`${_id}`}
           >
             Update
           </Button>
