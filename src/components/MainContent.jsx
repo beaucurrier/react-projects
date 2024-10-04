@@ -25,9 +25,20 @@ const MainContent = () => {
     fetchData()
   }, [])
 
-  const handleUserClick = (e) => {
+  const handleUserClick = async (e) => {
+    const editItem = [...checked].find((item) => item._id === e.target.id)
+    editItem = !editItem.completed
+    const response = await fetch(`${apiUrl}/edit-todo/${id}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        text: editItem.text,
+        completed: editItem.completed,
+      }),
+    })
+    const updatedTodo = await response.json()
     const tempArray = [...checked].map((item) =>
-      item._id === e.target.id ? { ...item, completed: !item.completed } : item
+      item._id == id ? updatedTodo : item
     )
     setChecked(tempArray)
     console.log(checked)
