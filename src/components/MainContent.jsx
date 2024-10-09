@@ -86,8 +86,9 @@ const MainContent = () => {
     const updatedItems = checked.filter((item) => {
       if (item._id !== id) return item
     })
-    const response = await fetch(`${apiUrl}/delete-todo/${id}`, {
+    await fetch(`${apiUrl}/delete-todo/${id}`, {
       method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
     })
     console.log(updatedItems)
     setChecked(updatedItems)
