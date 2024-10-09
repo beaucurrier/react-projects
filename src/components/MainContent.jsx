@@ -100,7 +100,7 @@ const MainContent = () => {
       text={text}
       key={_id}
       completed={completed}
-      id={_id}
+      _id={_id}
       handleUserClick={handleUserClick}
       isEditClicked={isEditClicked}
       setIsEditClicked={setIsEditClicked}
