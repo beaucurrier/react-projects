@@ -32,7 +32,6 @@ const ChecklistItem = ({
           />
         }
         label={text}
-        htmlFor={htmlFor}
       />
 
       <Button
