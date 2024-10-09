@@ -64,7 +64,7 @@ const MainContent = () => {
   }
 
   const handleEdit = async (id) => {
-    const editItem = [...checked].find((item) => item._id === id)
+    let editItem = [...checked].find((item) => item._id === id)
     editItem.text = editInputValue
     const response = await fetch(`${apiUrl}/edit-todo/${id}`, {
       method: 'POST',
