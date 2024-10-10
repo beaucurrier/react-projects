@@ -1,58 +1,60 @@
-import PropTypes from 'prop-types'
-import Input from './Input'
-import { TextField } from '@mui/material'
+/* eslint-disable react/prop-types */
 import FormGroup from '@mui/material/FormGroup'
+import { TextField } from '@mui/material'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Checkbox from '@mui/material/Checkbox'
 import Button from '@mui/material/Button'
-
 const ChecklistItem = ({
+  editInputValue,
   handleDelete,
+  handleEdit,
   _id,
   text,
   completed,
   handleUserClick,
   isEditClicked,
   setIsEditClicked,
-  editInputValue,
   setEditInputValue,
-  handleEdit,
   editItemId,
   setEditItemId,
 }) => {
   return (
     <FormGroup>
-      <FormControlLabel
-        control={
-          <Checkbox
-            onChange={(e) => handleUserClick(e)}
-            checked={completed}
-            type={'checkbox'}
-            id={`${_id}`}
-          />
-        }
-        label={text}
-      />
-
-      <Button
-        variant='outlined'
-        onClick={() => handleDelete(_id)}
-        id={`${_id}`}
-      >
-        Delete
-      </Button>
       {!isEditClicked && (
-        <Button
-          variant='outlined'
-          onClick={() => {
-            setIsEditClicked(!isEditClicked)
-            setEditInputValue(text)
-            setEditItemId(_id)
-          }}
-          id={`${_id}`}
-        >
-          Edit
-        </Button>
+        <>
+          <FormControlLabel
+            control={
+              <Checkbox
+                onChange={() => handleUserClick(_id)}
+                checked={completed}
+                type={'checkbox'}
+                id={`${_id}`}
+              />
+            }
+            label={text}
+            htmlFor={_id}
+          />
+
+          <Button
+            variant='outlined'
+            onClick={() => handleDelete(_id)}
+            id={`${_id}`}
+          >
+            Delete
+          </Button>
+
+          <Button
+            variant='outlined'
+            onClick={() => {
+              setIsEditClicked(!isEditClicked)
+              setEditInputValue(text)
+              setEditItemId(_id)
+            }}
+            id={`${_id}`}
+          >
+            Edit
+          </Button>
+        </>
       )}
       {isEditClicked && editItemId === _id && (
         <>
@@ -79,5 +81,4 @@ const ChecklistItem = ({
     </FormGroup>
   )
 }
-
 export default ChecklistItem
