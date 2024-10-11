@@ -18,7 +18,10 @@ const MainContent = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`${apiUrl}/todos`)
+        const response = await fetch(`${apiUrl}/todos`, {
+          method: 'GET',
+          credentials: 'include',
+        })
         const data = await response.json()
         console.log(data, 'useEffect')
         setChecked(data.todos)
