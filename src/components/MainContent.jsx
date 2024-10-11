@@ -14,7 +14,7 @@ const MainContent = () => {
   const [editInputValue, setEditInputValue] = useState('')
   const [editItemId, setEditItemId] = useState(null)
   const apiUrl =
-    import.meta.env.VITE_API_URL || 'https://todolistback-cbxs.onrender.com'
+    import.meta.env.VITE_API_URL || 'https://todolistbackend-fb6e.onrender.com'
   useEffect(() => {
     const fetchData = async () => {
       try {
