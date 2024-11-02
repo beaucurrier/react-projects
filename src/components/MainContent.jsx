@@ -16,14 +16,12 @@ const MainContent = () => {
   const apiUrl =
     import.meta.env.VITE_API_URL || 'https://todolistbackend-fb6e.onrender.com'
   useEffect(() => {
+    console.log(useEffect, 'useEffect line 19')
     const fetchData = async () => {
       try {
-        const response = await fetch(`${apiUrl}/todos`, {
-          method: 'GET',
-          credentials: 'include',
-        })
+        const response = await fetch(`${apiUrl}/todos`, {})
         const data = await response.json()
-        console.log(data, 'useEffect')
+        console.log(data, 'useEffect line 24')
         setChecked(data.todos)
       } catch (error) {
         console.error(error)
